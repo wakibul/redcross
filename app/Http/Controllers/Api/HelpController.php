@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Member;
+use App\Models\Help;
 use App\Customer;
 use Validator,DB;
-
-class MemberController extends Controller
+class HelpController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -49,8 +48,10 @@ class MemberController extends Controller
             'district'=> 'required',
             'pincode'=> 'required|numeric',
             'mobile'=> 'required|numeric',
-            'voluntary_service'=> 'required',
-            'member_package_id'=> 'required|numeric'
+            'blood_donation'=> 'required',
+            'relief'=> 'required',
+            'medical_assistance'=> 'required',
+            'message'=> 'required'
 		]);
 		if ($validator->fails()) {
 			return response()->json(['success'=>false,'error'=>$validator->errors()]);
@@ -67,17 +68,19 @@ class MemberController extends Controller
             $data['pincode'] = $request->pincode;
             $data['mobile'] = $request->mobile;
             $data['email'] = $request->email;
-            $data['voluntary_service'] = $request->voluntary_service;
-            $data['member_package_id'] = $request->member_package_id;
+            $data['blood_donation'] = $request->blood_donation;
+            $data['relief'] = $request->relief;
+            $data['medical_assistance'] = $request->medical_assistance;
+            $data['message'] = $request->message;
         }
         catch(\Exception $e){
             DB::rollback();
             return response()->json(['success'=>false,'error'=>$e->getMessage()]);
 
         }
-        Member::create($data);
+        Help::create($data);
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Applied succesfully']);
+	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly']);
     }
 
     /**
@@ -86,26 +89,9 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function checkMember()
+    public function show($id)
     {
         //
-        $is_member = Member::with('memberPackage')->where('customer_id',auth('api')->user()->id)->first();
-        if($is_member != null){
-            return response()->json(['success'=>true,'status'=>$is_member->status,'status_comment'=>[
-                '0' => 'Applied for',
-                '1' => 'Confirmed',
-                '2' => 'Cancelled',
-                '9' => 'Not applied'
-            ],'customer_details'=>$is_member]);
-        }else{
-            return response()->json(['success'=>true,'status'=>9,'status_comment'=>[
-                '0' => 'Applied for',
-                '1' => 'Confirmed',
-                '2' => 'Cancelled',
-                '9' => 'Not applied'
-            ]]);
-        }
-            
     }
 
     /**

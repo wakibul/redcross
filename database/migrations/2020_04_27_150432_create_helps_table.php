@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembersTable extends Migration
+class CreateHelpsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('helps', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('customer_id')->unsigned();
             $table->string('name');
@@ -25,16 +25,14 @@ class CreateMembersTable extends Migration
             $table->integer('pincode');
             $table->string('mobile');
             $table->string('email')->nullable();
-            $table->boolean('voluntary_service')->default(0);
-            $table->BigInteger('member_package_id')->unsigned();
+            $table->text('blood_donation');
+            $table->text('relief');
+            $table->text('medical_assistance');
+            $table->text('message');
             $table->boolean('status')->default(0);
-            $table->dateTime('approve_at')->nullable();
-            $table->BigInteger('approve_by')->unsigned()->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('member_package_id')->references('id')->on('member_packages')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-
         });
     }
 
@@ -45,6 +43,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('helps');
     }
 }

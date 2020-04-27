@@ -30,4 +30,5 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/member-store', 'Api\MemberController@store');
     Route::get('/check-member', 'Api\MemberController@checkMember');
     Route::get('/member-package', 'Api\MemberPackageController@index');
+    Route::post('/help-store', 'Api\HelpController@store');
 });
