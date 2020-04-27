@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->BigInteger('customers_id')->unsigned();
+            $table->BigInteger('customer_id')->unsigned();
             $table->string('name');
             $table->string('age',50);
             $table->string('sex',50);
@@ -33,7 +33,7 @@ class CreateMembersTable extends Migration
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('member_package_id')->references('id')->on('member_packages')->onDelete('cascade');
-            $table->foreign('customers_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
         });
     }
