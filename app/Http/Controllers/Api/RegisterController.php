@@ -146,7 +146,7 @@ class RegisterController extends Controller
 		if (Customer::where([['mobile', '=', $request->mobile],['status',0]])->exists()) {
                 $otp = mt_rand(100000, 999999);
                 try{
-                    $update = Customer::where([['mobile',$request->mobile],['status',0],['otp_verified',null]])->update(['otp_attempt'=>0,'otp'=>$otp]);
+                    $update = Customer::where([['mobile',$request->mobile],['status',0],['otp_verified',null]])->update(['otp'=>$otp]);
 					sendNewSMS($request->mobile,"Your otp verification code is ".$otp);
 					return response()->json(['success'=>true,'msg'=>'Otp sent successfully']);
                 }
