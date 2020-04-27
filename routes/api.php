@@ -25,9 +25,9 @@ Route::post('/forgot-password', 'Api\ForgotPasswordController@index');
 Route::post('/validate-otp', 'Api\ForgotPasswordController@validateOtp');
 Route::post('/change-password', 'Api\ForgotPasswordController@changePassword');
 Route::post('/forgot-resend-otp', 'Api\ForgotPasswordController@resendOtp');
+Route::get('/pages', 'Api\PageController@index');
 Route::middleware('auth:api')->group(function(){
     Route::post('/member-store', 'Api\MemberController@store');
     Route::get('/check-member', 'Api\MemberController@checkMember');
-    Route::get('/member-package', 'Api\MemberPackageController@index');
-    Route::get('/pages', 'Api\PageController@index');
+    Route::get('/member-package', 'Api\MemberPackageController@index')
 });
