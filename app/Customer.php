@@ -48,4 +48,8 @@ class Customer extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function memberPackage(){
+        return $this->belongsTo('App\Models\MemberPackage','member_package_id');
+    }
 }

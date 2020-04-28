@@ -16,3 +16,14 @@ Route::get('/users', [
     'uses' => 'Admin\UserController@index',
 ]);
 
+Route::get('/members', [
+    'as' => 'members',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\MemberController@index',
+]);
+
+Route::get('/helps', [
+    'as' => 'helps',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\MemberController@index',
+]);

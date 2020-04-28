@@ -73,15 +73,18 @@ class DonationController extends Controller
             $data['donation_amount'] = $request->donation_amount;
             $data['donation_purpose'] = $request->donation_purpose;
             $data['pan_no'] = $request->pan_no;
+            $donation = Donation::create($data);
+            $request_id = "IND/REDCROSS/DONATION/".$donation->id;
+            Donation::where('id',$donation->id)->update(['donation_request_id'=>$request_id]);
         }
         catch(\Exception $e){
             DB::rollback();
             return response()->json(['success'=>false,'error'=>$e->getMessage()]);
 
         }
-        Donation::create($data);
+        
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly']);
+	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly.Your donation request id is '. $request_id,'request_id'=>$request_id]);
     }
 
     /**

@@ -60,20 +60,20 @@
                     <li class="nav-item">
                         <a href="{{route('admin.home')}}" class="nav-link active"><i class="fe fe-home"></i> Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-tty"></i>
-                            Masters </a>
-                        <div class="dropdown-menu dropdown-menu-arrow">
-                            <a href="#" class="dropdown-item ">Ctegory (Add /
-                                Manage)</a>
 
-                           
-                        </div>
+                    <li class="nav-item dropdown">
+                        <a href="{{route('admin.users')}}" class="nav-link "><i class="fa fa-user"
+                                aria-hidden="true"></i>User</a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link "><i class="fa fa-calculator"
-                                aria-hidden="true"></i>Settlement</a>
+                        <a href="{{route('admin.members')}}" class="nav-link "><i class="fa fa-user"
+                                aria-hidden="true"></i>Members</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="{{route('admin.helps')}}" class="nav-link "><i class="fa fa-user"
+                                aria-hidden="true"></i>Helps</a>
                     </li>
                     
                     <li class="nav-item">

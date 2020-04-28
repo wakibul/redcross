@@ -82,7 +82,7 @@ class HelpController extends Controller
 
         }
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly','request_id'=>$request_id]);
+	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly. Your help request id is '. $request_id,'request_id'=>$request_id]);
     }
 
     /**

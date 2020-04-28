@@ -79,7 +79,7 @@ class MemberController extends Controller
 
         }
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Applied succesfully','request_id'=>$request_id]);
+	    return response()->json(['success'=>true,'msg'=>'Applied succesfully! Your Member request id is '. $request_id,'request_id'=>$request_id]);
     }
 
     /**
