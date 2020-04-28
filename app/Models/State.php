@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Donation extends Model
+class State extends Model
 {
     //
-    protected $guarded = ['id','token'];
 }

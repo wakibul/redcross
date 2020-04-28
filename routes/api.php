@@ -31,4 +31,6 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/check-member', 'Api\MemberController@checkMember');
     Route::get('/member-package', 'Api\MemberPackageController@index');
     Route::post('/help-store', 'Api\HelpController@store');
+    Route::get('/country-list', 'Api\CountryController@index');
+    Route::post('/donation-store', 'Api\DonationController@store');
 });
