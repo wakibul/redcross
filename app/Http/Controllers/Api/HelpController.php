@@ -72,15 +72,17 @@ class HelpController extends Controller
             $data['relief'] = $request->relief;
             $data['medical_assistance'] = $request->medical_assistance;
             $data['message'] = $request->message;
+            $help = Help::create($data);
+            $request_id = "IND/REDCROSS/HELP/".$help->id;
+            Help::where('id',$help->id)->update(['help_request_id'=>$request_id]);
         }
         catch(\Exception $e){
             DB::rollback();
             return response()->json(['success'=>false,'error'=>$e->getMessage()]);
 
         }
-        Help::create($data);
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly']);
+	    return response()->json(['success'=>true,'msg'=>'Thank you ! We will get back to you shortly','request_id'=>$request_id]);
     }
 
     /**

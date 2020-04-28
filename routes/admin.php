@@ -10,3 +10,9 @@ Route::get('/home', function () {
     return view('admin.home');
 })->name('home');
 
+Route::get('/users', [
+    'as' => 'users',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\UserController@index',
+]);
+

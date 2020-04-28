@@ -69,15 +69,17 @@ class MemberController extends Controller
             $data['email'] = $request->email;
             $data['voluntary_service'] = $request->voluntary_service;
             $data['member_package_id'] = $request->member_package_id;
+            $member = Member::create($data);
+            $request_id = "IND/REDCROSS/MEM/".$member->id;
+            Member::where('id',$member->id)->update(['member_request_id'=>$request_id]);
         }
         catch(\Exception $e){
             DB::rollback();
             return response()->json(['success'=>false,'error'=>$e->getMessage()]);
 
         }
-        Member::create($data);
         DB::commit();  
-	    return response()->json(['success'=>true,'msg'=>'Applied succesfully']);
+	    return response()->json(['success'=>true,'msg'=>'Applied succesfully','request_id'=>$request_id]);
     }
 
     /**
