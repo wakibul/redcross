@@ -11,75 +11,40 @@
               <div class="col-6 col-sm-4 col-lg-2">
                 <div class="card">
                   <div class="card-body p-3 text-center">
-                    <div class="text-right text-green">
-                      6%
-                      <i class="fe fe-chevron-up"></i>
-                    </div>
-                    <div class="h1 m-0">43</div>
-                    <div class="text-muted mb-4">New Tickets</div>
+                    
+                    <div class="h1 m-0">{{getTotalUsers("App\Customer")}}</div>
+                    <div class="text-muted mb-4">Total Users</div>
                   </div>
                 </div>
               </div>
               <div class="col-6 col-sm-4 col-lg-2">
                 <div class="card">
                   <div class="card-body p-3 text-center">
-                    <div class="text-right text-red">
-                      -3%
-                      <i class="fe fe-chevron-down"></i>
-                    </div>
-                    <div class="h1 m-0">17</div>
-                    <div class="text-muted mb-4">Closed Today</div>
+                    
+                    <div class="h1 m-0">{{getTotalUsers("App\Models\Member")}}</div>
+                    <div class="text-muted mb-4">Total Members</div>
                   </div>
                 </div>
               </div>
               <div class="col-6 col-sm-4 col-lg-2">
                 <div class="card">
                   <div class="card-body p-3 text-center">
-                    <div class="text-right text-green">
-                      9%
-                      <i class="fe fe-chevron-up"></i>
-                    </div>
-                    <div class="h1 m-0">7</div>
-                    <div class="text-muted mb-4">New Replies</div>
+                    
+                    <div class="h1 m-0">{{getTotal("App\Models\Help")}}</div>
+                    <div class="text-muted mb-4">Total Help Request</div>
                   </div>
                 </div>
               </div>
               <div class="col-6 col-sm-4 col-lg-2">
                 <div class="card">
                   <div class="card-body p-3 text-center">
-                    <div class="text-right text-green">
-                      3%
-                      <i class="fe fe-chevron-up"></i>
-                    </div>
-                    <div class="h1 m-0">27.3K</div>
-                    <div class="text-muted mb-4">Followers</div>
+                    
+                    <div class="h1 m-0">{{getTotal("App\Models\Donation")}}</div>
+                    <div class="text-muted mb-4">Total Donation</div>
                   </div>
                 </div>
               </div>
-              <div class="col-6 col-sm-4 col-lg-2">
-                <div class="card">
-                  <div class="card-body p-3 text-center">
-                    <div class="text-right text-red">
-                      -2%
-                      <i class="fe fe-chevron-down"></i>
-                    </div>
-                    <div class="h1 m-0">$95</div>
-                    <div class="text-muted mb-4">Daily Earnings</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-sm-4 col-lg-2">
-                <div class="card">
-                  <div class="card-body p-3 text-center">
-                    <div class="text-right text-red">
-                      -1%
-                      <i class="fe fe-chevron-down"></i>
-                    </div>
-                    <div class="h1 m-0">621</div>
-                    <div class="text-muted mb-4">Products</div>
-                  </div>
-                </div>
-              </div>
+            
               <div class="col-lg-12">
                 <div class="card">
                   <div class="card-header">
@@ -105,23 +70,23 @@
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Month', 'Member', 'Help', 'Donation'],
-          ['Jan', 1000, 400, 200],
-          ['Feb', 1170, 460, 250],
-          ['march', 660, 1120, 300],
-          ['April', 1030, 540, 350],
-          ['May', 1000, 400, 200],
-          ['June', 1170, 460, 250],
-          ['July', 660, 1120, 300],
-          ['August', 1030, 540, 350],
-          ['September', 1030, 540, 350],
-          ['October', 1030, 540, 350],
-          ['November', 1030, 540, 350],
-          ['December', 1030, 540, 350]
+          ['Jan', {{getCountDashboardGraph("App\Models\Member",date('Y'),"01")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"01")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"01")}}],
+          ['Feb', {{getCountDashboardGraph("App\Models\Member",date('Y'),"02")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"02")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"02")}}],
+          ['march', {{getCountDashboardGraph("App\Models\Member",date('Y'),"03")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"03")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"03")}}],
+          ['April', {{getCountDashboardGraph("App\Models\Member",date('Y'),"04")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"04")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"04")}}],
+          ['May', {{getCountDashboardGraph("App\Models\Member",date('Y'),"05")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"05")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"05")}}],
+          ['June', {{getCountDashboardGraph("App\Models\Member",date('Y'),"06")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"06")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"06")}}],
+          ['July', {{getCountDashboardGraph("App\Models\Member",date('Y'),"07")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"07")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"07")}}],
+          ['August', {{getCountDashboardGraph("App\Models\Member",date('Y'),"08")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"08")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"08")}}],
+          ['September', {{getCountDashboardGraph("App\Models\Member",date('Y'),"09")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"09")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"09")}}],
+          ['October', {{getCountDashboardGraph("App\Models\Member",date('Y'),"10")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"10")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"10")}}],
+          ['November', {{getCountDashboardGraph("App\Models\Member",date('Y'),"11")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"11")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"11")}}],
+          ['December', {{getCountDashboardGraph("App\Models\Member",date('Y'),"12")}}, {{getCountDashboardGraph("App\Models\Help",date('Y'),"12")}}, {{getCountDashboardGraph("App\Models\Donation",date('Y'),"12")}}]
         ]);
 
         var options = {
           chart: {
-            title: 'Company Performance',
+            title: 'Total Request',
             subtitle: 'Member, Help, and Donation: <?php echo date('Y');?>',
           }
         };

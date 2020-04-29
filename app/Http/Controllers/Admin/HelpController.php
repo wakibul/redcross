@@ -4,31 +4,59 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Customer;
-use Validator,DB;
-class UserController extends Controller
+use App\Models\Help;
+use Crypt,Redirect,Auth;
+class HelpController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function openHelp(Request $request)
     {
         //
-        $users = Customer::with('memberPackage')->where('status',1);
-        if ($request->status) {
-            $users->where('is_member', $request->status);
-        }
+        $helps = Help::with('customer')->where('status',0);
         if ($request->from_date) {
-            $users->whereDate('created_at','>=',$request->from_date);
+            $helps->whereDate('created_at','>=',$request->from_date);
         }
 
         if ($request->to_date) {
-            $users->whereDate('created_at','<=',$request->to_date);
+            $helps->whereDate('created_at','<=',$request->to_date);
         }
-        $users = $users->paginate();;
-        return view('admin.user.index',compact('users'));
+        $helps = $helps->paginate();;
+        return view('admin.help.open',compact('helps'));
+    }
+
+    public function closeHelp(Request $request)
+    {
+        //
+        $helps = Help::with('customer')->where('status',1);
+        if ($request->from_date) {
+            $helps->whereDate('created_at','>=',$request->from_date);
+        }
+
+        if ($request->to_date) {
+            $helps->whereDate('created_at','<=',$request->to_date);
+        }
+        $helps = $helps->paginate();;
+        return view('admin.help.close',compact('helps'));
+    }
+
+    public function ajaxInfo(Request $request)
+    {
+        //
+        $help = Help::with('customer')->where('id',$request->id)->first();
+        return response()->json($help);
+    }
+
+    public function closeIssue($id)
+    {
+        //
+        $id = Crypt::decrypt($id);
+        $closed_at = date('Y-m-d  H:i:s');
+        Help::where('id',$id)->update(['status'=>1,'closed_at'=>$closed_at,'closed_by'=>Auth::guard('admin')->user()->id]);
+        return Redirect::back()->with('success', 'Closed successfully');
     }
 
     /**
@@ -95,5 +123,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $id = Crypt::decrypt($id);
+        $help = Help::where('id',$id)->first();
+        $help->delete();;
+        return Redirect::back()->with('success', 'Deleted !');
     }
 }

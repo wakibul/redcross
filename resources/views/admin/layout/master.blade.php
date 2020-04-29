@@ -3,6 +3,11 @@
   <head>
     @include('admin.layout.head')
     @yield('css')
+    <style>
+    .modal-lg{
+      max-width:1024px !important;
+    }
+    </style>
   </head>
   <body class="">
     <div class="page">

@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($users as $key=>$user)
+            @forelse($members as $key=>$member)
             <tr>
                 <td>{{ ($key+1) }}</td>
                 <td>{{$user->name}}</td>
@@ -58,6 +58,6 @@
 
         </tbody>
     </table>
-    {{$users->links()}}
+    {{$members->links()}}
 </div>
 @endsection

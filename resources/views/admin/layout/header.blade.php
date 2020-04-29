@@ -66,24 +66,32 @@
                                 aria-hidden="true"></i>User</a>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a href="{{route('admin.members')}}" class="nav-link "><i class="fa fa-user"
-                                aria-hidden="true"></i>Members</a>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            Member Request </a>
+                        <div class="dropdown-menu dropdown-menu-arrow">
+                            <a href="{{route('admin.approved_members')}}" class="dropdown-item ">Approved Members</a>
+                            <a href="{{route('admin.pending_members')}}" class="dropdown-item ">Pending Members</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            Help Request </a>
+                        <div class="dropdown-menu dropdown-menu-arrow">
+                        <a href="{{route('admin.help.open')}}" class="dropdown-item"><i class="fa fa-user"
+                                aria-hidden="true"></i>Open Issue</a>
+                        <a href="{{route('admin.help.close')}}" class="dropdown-item"><i class="fa fa-user"
+                                aria-hidden="true"></i>Closed Issue</a>
+                        </div>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a href="{{route('admin.helps')}}" class="nav-link "><i class="fa fa-user"
-                                aria-hidden="true"></i>Helps</a>
+                        <a href="{{route('admin.donation.index')}}" class="nav-link "><i class="fa fa-user"
+                                aria-hidden="true"></i>Donation</a>
                     </li>
                     
-                    <li class="nav-item">
-                        <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-user"></i>
-                            Customers </a>
-                        <div class="dropdown-menu dropdown-menu-arrow">
-                            <a href="#" class="dropdown-item ">All Customer Details</a>
-                    
-                        </div>
-                    </li>
+                   
                     
                     
 
