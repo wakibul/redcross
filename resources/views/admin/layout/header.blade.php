@@ -36,7 +36,7 @@
                                                  document.getElementById('logout-form').submit();">
                             <i class="dropdown-icon fe fe-log-out"></i> Sign out
                         </a>
-                          <a href="#" class="dropdown-item "><i class="fa fa-key" aria-hidden="true"></i>Change Password</a>
+                          
                         
                         <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
