@@ -80,6 +80,12 @@ Route::group(['prefix' => 'help'], function () {
         'middleware' => ['admin'],
         'uses' => 'Admin\HelpController@destroy',
     ]);
+
+    Route::post('/status/update', [
+        'as' => 'help.status.update',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\HelpController@update',
+    ]);
 });  
 
 Route::group(['prefix' => 'donation'], function () {
@@ -99,5 +105,7 @@ Route::group(['prefix' => 'donation'], function () {
         'middleware' => ['admin'],
         'uses' => 'Admin\DonationController@destroy',
     ]);
+
+    
 });    
 

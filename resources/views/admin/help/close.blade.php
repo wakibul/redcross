@@ -68,6 +68,14 @@
                     <div id="registration"></div>
                 </div>
                 </div>
+                <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Status <span id="member_status"></span></h3>
+                </div>
+                <div class="card-body">
+                    <div id="help_trans"></div>
+                </div>
+                </div>
             </div>
             <div class="col-md-7">
             
@@ -102,7 +110,7 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-  $('.info').click(function(){
+    $('.info').click(function(){
     var id = $(this).attr('data-id');
     $.ajax({
         url:'{{route("admin.help.get_help_info")}}',
@@ -135,7 +143,7 @@ $(document).ready(function(){
             else
                 email = response.email;  
             var member_info = "<div class='row'><div class='col-md-4'><strong>Request Id :</strong></div>";
-            member_info += "<div class='col-md-8'><strong>"+response.member_request_id+"</strong></div></div>";
+            member_info += "<div class='col-md-8'><strong>"+response.help_request_id+"</strong></div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Name :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.name+"</div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Mobile :</strong></div>";
@@ -161,6 +169,39 @@ $(document).ready(function(){
             member_info += "<div class='row'><div class='col-md-4'><strong>Relief :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.relief+"</div></div>";
             $('#help').html(member_info);
+            if(response.status == 0){
+                member_info_status = '<span class="label label-default">On Hold</span>';
+                    }
+                    else if(response.status == 1){
+                        member_info_status = '<span class="label label-primary">On Process</span>';
+                    }
+                    else if(response.status == 2){
+                        member_info_status = '<span class="label label-success">On Process</span>';
+                    }
+            $('#member_status').html(member_info_status);        
+            if(response.help_transactions != null){
+                var help_transaction  = "";
+                
+                $.each(response.help_transactions,function(k,v){
+                    if(v.status == 0){
+                    status = '<span class="label label-default">On Hold</span>';
+                    }
+                    else if(v.status == 1){
+                        status = '<span class="label label-primary">On Process</span>';
+                    }
+                    else if(v.status == 2){
+                        status = '<span class="label label-success">Closed</span>';
+                    }
+                     help_transaction  += "<div class='row'><div class='col-md-12' style='color:blue;font-size:12px'><strong>"+new Date(v.created_at)+"</strong></div></div>";
+                     help_transaction  += "<div class='row'><div class='col-md-12'><strong>"+status+"</strong></div></div>";
+                     help_transaction  += "<div class='row'><div class='col-md-12'  style='font-size:14px'>"+v.remarks+"</div></div>";
+                })
+                
+            }
+            else{
+                var help_transaction  = "<div class='alert alert-danger'>No Update </div>";
+            }
+            $('#help_trans').html(help_transaction);
         },
         error:function(response){
             console.log(response);

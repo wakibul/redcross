@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Help;
-use Crypt,Redirect,Auth;
+use App\Models\HelpTransaction;
+use Crypt,Redirect,Auth,Validator,DB;
 class HelpController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class HelpController extends Controller
     public function openHelp(Request $request)
     {
         //
-        $helps = Help::with('customer')->where('status',0);
+        $helps = Help::with('customer')->where('status','!=','2');
         if ($request->from_date) {
             $helps->whereDate('created_at','>=',$request->from_date);
         }
@@ -31,7 +32,7 @@ class HelpController extends Controller
     public function closeHelp(Request $request)
     {
         //
-        $helps = Help::with('customer')->where('status',1);
+        $helps = Help::with('customer')->where('status',2);
         if ($request->from_date) {
             $helps->whereDate('created_at','>=',$request->from_date);
         }
@@ -46,7 +47,9 @@ class HelpController extends Controller
     public function ajaxInfo(Request $request)
     {
         //
-        $help = Help::with('customer')->where('id',$request->id)->first();
+        $help = Help::with(['customer','helpTransactions'=>function($query){
+            $query->orderBy('id','desc');
+        }])->where('id',$request->id)->first();
         return response()->json($help);
     }
 
@@ -109,9 +112,33 @@ class HelpController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'help_id' => 'required|numeric',
+            'status' => 'required|numeric',
+            'remarks'=> 'required'
+		]);
+		if ($validator->fails()) {
+			return Redirect::back()->with('error', $validator->errors());
+        }
+        $data['help_id'] = $request->help_id;
+        $data['status'] = $request->status;
+        $data['remarks'] = $request->remarks;
+        $closed_at = date('Y-m-d  H:i:s');
+        DB::beginTransaction();
+        try{
+            Help::where('id',$request->help_id)->update(['status'=>$request->status,'closed_at'=>$closed_at]);
+            HelpTransaction::create($data);
+            DB::commit();
+        }
+        catch(\Exception $e){
+            \Log::error($e);
+            DB::rollback();
+            return Redirect::back()->with('error', $e->getMessage());
+        }
+        return Redirect::back()->with('success', "Status updated successfully");
     }
 
     /**

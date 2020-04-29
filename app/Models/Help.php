@@ -12,4 +12,7 @@ class Help extends Model
     public function customer(){
         return $this->belongsTo('App\Customer','customer_id');
     }
+    public function helpTransactions(){
+        return $this->hasMany('App\Models\HelpTransaction','help_id');
+    }
 }
