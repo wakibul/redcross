@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Member;
+use App\Customer;
 use App\Models\MemberPackage;
 use Crypt,Redirect,Auth;
 class MemberController extends Controller
@@ -66,7 +67,9 @@ class MemberController extends Controller
         //
         $id = Crypt::decrypt($id);
         $approve_at = date('Y-m-d  H:i:s');
-        $members = Member::where('id',$id)->update(['status'=>1,'approve_at'=>$approve_at,'approve_by'=>Auth::guard('admin')->user()->id]);
+        Member::where('id',$id)->update(['status'=>1,'approve_at'=>$approve_at,'approve_by'=>Auth::guard('admin')->user()->id]);
+        $member = Member::findOrFail($id);
+        Customer::where('id',$member->customer_id)->update(['is_member'=>1,'member_package_id'=>$member->member_package_id]);
         return Redirect::back()->with('success', 'Approved successfully');
     }
 
