@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-<title>Header and Footer example</title>
+<title>Member Information</title>
 <style type="text/css">
 
 @page {
@@ -95,85 +95,83 @@ hr {
     <tr>
       <td><img src="{{asset('public/logo.jpg')}}" width="110px" height="70px"></td>
       <td style="text-align: center; color:#000"><h3>{{env('APP_NAME')}}</h3></td>
-      <td style="text-align: right; font-size:11px">{{$help->help_request_id}}</td>
+      <td style="text-align: right; font-size:11px">{{$member->member_request_id}}</td>
     </tr>
   </table>
 </div>
 
-<div align="center"><h3> Need Help </h3></div>
+<div align="center"><h3> Member/h3></div>
 <div align="center" style="width:100%">
 <table  align="center" cellpadding="5px" cellspacing="10px">
   <tr>
       <td width="30%">Status :</td>
       <td width="50%">
-      @if($help->status == 0)
-      <span class="label label-default">On Hold</span>
-      @elseif($help->status == 1)
-      <span class="label label-primary">On Process</span>
-      @elseif($help->status == 2)
-      <span class="label label-success">Closed</span>
+      @if($member->status == 0)
+      <span class="label label-default">Pending</span>
+      @elseif($member->status == 1)
+      <span class="label label-primary">Approved</span>
       @endif
       </td>
     </tr>
     <tr>
       <td width="30%">Request Id :</td>
-      <td>{{$help->help_request_id}}</td>
+      <td>{{$member->member_request_id}}</td>
     </tr>
     <tr>
       <td>Name :</td>
-      <td>{{$help->name}}</td>
+      <td>{{$member->name}}</td>
     </tr>
     <tr>
       <td>Age :</td>
-      <td>{{$help->age}}</td>
+      <td>{{$member->age}}</td>
     </tr>
     <tr>
       <td>Sex :</td>
-      <td>{{$help->sex}}</td>
+      <td>{{$member->sex}}</td>
     </tr>
     <tr>
       <td>Address :</td>
-      <td>{{$help->address}}</td>
+      <td>{{$member->address}}</td>
     </tr>
     <tr>
       <td>Village Town :</td>
-      <td>{{$help->village_town}}</td>
+      <td>{{$member->village_town}}</td>
     </tr>
     <tr>
       <td>District :</td>
-      <td>{{$help->district}}</td>
+      <td>{{$member->district}}</td>
     </tr>
     <tr>
       <td>Pincode :</td>
-      <td>{{$help->pincode}}</td>
+      <td>{{$member->pincode}}</td>
     </tr>
     <tr>
       <td>Mobile :</td>
-      <td>{{$help->mobile}}</td>
+      <td>{{$member->mobile}}</td>
     </tr>
 
     <tr>
       <td>Email :</td>
-      <td>{{$help->email ? $help->email : "Not Available"}}</td>
+      <td>{{$member->email ? $member->email : "Not Available"}}</td>
     </tr>
     <tr>
-      <td>Blood Donation :</td>
-      <td>@if($help->blood_donation == 1)
+      <td>Voluntary Service :</td>
+      <td>@if($member->voluntary_service == 1)
           Yes
           @else
           No
           @endif      
       </td>
     </tr>
-    @if($help->blood_donation == 1)
+    @if($member->member_package_id != null)
     <tr>
-      <td>Blood Group :</td>
-      <td>{{$help->blood_group ? $help->blood_group : "Not Available"}}</td>
+      <td>Member package :</td>
+      <td>{{$member->memberPackage->name}}</td>
     </tr>
     @endif
     <tr>
       <td>Relief :</td>
-      <td>@if($help->relief == 1)
+      <td>@if($member->relief == 1)
           Yes
           @else
           No
@@ -183,7 +181,7 @@ hr {
 
     <tr>
       <td>Medical Assistance :</td>
-      <td>@if($help->medical_assistance == 1)
+      <td>@if($member->medical_assistance == 1)
           Yes
           @else
           No
@@ -193,7 +191,7 @@ hr {
 
     <tr>
       <td>Other :</td>
-      <td>@if($help->other == 1)
+      <td>@if($member->other == 1)
           Yes
           @else
           No
@@ -201,10 +199,10 @@ hr {
       </td>
     </tr>
 
-    @if($help->other == 1)
+    @if($member->other == 1)
     <tr>
       <td>Message :</td>
-      <td>{{$help->message ? $help->message : "Not Available"}}</td>
+      <td>{{$member->message ? $member->message : "Not Available"}}</td>
     </tr>
     @endif
   </table>

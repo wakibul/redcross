@@ -161,9 +161,11 @@ class HelpController extends Controller
     {
         //
         $id = Crypt::decrypt($id);
-        $data = Help::with('customer')->where('id',$id)->first();
-        $pdf = PDF::loadView('admin.help.pdf', compact('data'));
-        return $pdf->download('customers.pdf');
+        $help = Help::with('customer')->where('id',$id)->first();
+        PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('admin.help.pdf', compact('help'));
+        $filename = str_replace("/","-",strtolower($help->help_request_id));
+        return $pdf->download($filename.'.pdf');
         //return view('admin.help.pdf',compact('help'));
     }
 }

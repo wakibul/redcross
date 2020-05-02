@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Customer;
 use App\Models\MemberPackage;
 use Crypt,Redirect,Auth;
+use PDF;
 class MemberController extends Controller
 {
     /**
@@ -149,5 +150,17 @@ class MemberController extends Controller
         $member = Member::where('id',$id)->first();
         $member->delete();;
         return Redirect::back()->with('success', 'Member Deleted !');
+    }
+
+    public function pdf($id)
+    {
+        //
+        $id = Crypt::decrypt($id);
+        $member = Member::where('id',$id)->with('customer','memberPackage')->first();
+        PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('admin.member.pdf', compact('member'));
+        $filename = str_replace("/","-",strtolower($help->member_request_id));
+        return $pdf->download($filename.'.pdf');
+        //return view('admin.help.pdf',compact('help'));
     }
 }

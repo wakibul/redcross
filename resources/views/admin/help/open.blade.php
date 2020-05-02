@@ -41,7 +41,7 @@
                 <td><a href="javascript:void(0)" class="btn btn-sm btn-primary info" data-id="{{$help->id}}">Info</a>
                 <a href="javascript:void(0)" class="btn btn-sm btn-success status"  data-id="{{$help->id}}">Update Status</a>
                 <!-- <a href="{{route('admin.help.close_issue',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure to close?')">Close</a> -->
-                <a href="{{route('admin.help.pdf',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-orange">PDF</a>
+                <a href="{{route('admin.help.pdf',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-orange"  target="_blank">PDF</a>
                 <a href="{{route('admin.help.delete',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
                     </td>
             </tr>
@@ -210,7 +210,28 @@ $(document).ready(function(){
             if(response.email == null)
                 email = "Not Available";
             else
-                email = response.email;  
+                email = response.email;
+
+            if(response.blood_donation == 1)
+                blood_donation = "Yes";
+            else
+                blood_donation = "No"; 
+
+            if(response.medical_assistance == 1)
+                medical_assistance = "Yes";
+            else
+                medical_assistance = "No"; 
+
+            if(response.relief == 1)
+                relief = "Yes";
+            else
+                 relief = "No"; 
+
+            if(response.other == 1)
+                other = "Yes";
+            else
+                 other = "No";      
+
             var member_info = "<div class='row'><div class='col-md-4'><strong>Request Id :</strong></div>";
             member_info += "<div class='col-md-8'><strong>"+response.help_request_id+"</strong></div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Name :</strong></div>";
@@ -232,11 +253,22 @@ $(document).ready(function(){
             member_info += "<div class='row'><div class='col-md-4'><strong>Pincode :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.pincode+"</div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Medical assistance :</strong></div>";
-            member_info += "<div class='col-md-8'>"+response.medical_assistance+"</div></div>";
+            member_info += "<div class='col-md-8'>"+medical_assistance+"</div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Blood Donation :</strong></div>";
-            member_info += "<div class='col-md-8'>"+response.blood_donation+"</div></div>";
+            member_info += "<div class='col-md-8'>"+blood_donation+"</div></div>";
+            if(response.blood_donation == 1){
+            member_info += "<div class='row'><div class='col-md-4'><strong>Blood Group :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.blood_group+"</div></div>";
+            }
             member_info += "<div class='row'><div class='col-md-4'><strong>Relief :</strong></div>";
-            member_info += "<div class='col-md-8'>"+response.relief+"</div></div>";
+            member_info += "<div class='col-md-8'>"+relief+"</div></div>";
+            member_info += "<div class='row'><div class='col-md-4'><strong>Other :</strong></div>";
+            member_info += "<div class='col-md-8'>"+other+"</div></div>";
+            if(response.blood_donation == 1){
+            member_info += "<div class='row'><div class='col-md-4'><strong>Message :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.message+"</div></div>";
+            }
+
             $('#help').html(member_info);
                 if(response.status == 0){
                     member_info_status = '<span class="label label-default">On Hold</span>';
@@ -245,7 +277,7 @@ $(document).ready(function(){
                         member_info_status = '<span class="label label-primary">On Process</span>';
                     }
                     else if(response.status == 2){
-                        member_info_status = '<span class="label label-success">On Process</span>';
+                        member_info_status = '<span class="label label-success">Closed</span>';
                     }
             $('#member_status').html(member_info_status);        
             if(response.help_transactions != null){

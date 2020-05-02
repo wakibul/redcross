@@ -36,3 +36,4 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/help-list', 'Api\HelpController@index');
     Route::get('/donation-list', 'Api\DonationController@index');
 });
+Route::get('/version', 'Api\VersionController@index');

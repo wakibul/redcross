@@ -55,7 +55,6 @@ class DonationController extends Controller
             'mobile'=> 'required|numeric',
             'country_id'=> 'required',
             'state_id'=> 'required',
-            'donation_amount'=> 'required',
             'donation_purpose'=> 'required',
             'pan_no'=> 'required'
 		]);
