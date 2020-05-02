@@ -100,7 +100,7 @@ hr {
   </table>
 </div>
 
-<div align="center"><h3> Member/h3></div>
+<div align="center"><h3> Member</h3></div>
 <div align="center" style="width:100%">
 <table  align="center" cellpadding="5px" cellspacing="10px">
   <tr>
@@ -169,40 +169,11 @@ hr {
       <td>{{$member->memberPackage->name}}</td>
     </tr>
     @endif
-    <tr>
-      <td>Relief :</td>
-      <td>@if($member->relief == 1)
-          Yes
-          @else
-          No
-          @endif      
-      </td>
-    </tr>
 
+    @if($member->approve_at != null)
     <tr>
-      <td>Medical Assistance :</td>
-      <td>@if($member->medical_assistance == 1)
-          Yes
-          @else
-          No
-          @endif      
-      </td>
-    </tr>
-
-    <tr>
-      <td>Other :</td>
-      <td>@if($member->other == 1)
-          Yes
-          @else
-          No
-          @endif      
-      </td>
-    </tr>
-
-    @if($member->other == 1)
-    <tr>
-      <td>Message :</td>
-      <td>{{$member->message ? $member->message : "Not Available"}}</td>
+      <td>Approved on :</td>
+      <td>{{date('d-M-Y',strtotime($member->approve_at))}}</td>
     </tr>
     @endif
   </table>

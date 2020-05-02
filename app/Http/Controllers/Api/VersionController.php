@@ -16,7 +16,7 @@ class VersionController extends Controller
     public function index()
     {
         //
-        $version = ['version'=>'4'];
+        $version = ['version'=>'1'];
         return response()->json($version);
     }
 

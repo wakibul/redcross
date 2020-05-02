@@ -52,6 +52,12 @@ Route::post('/get-member-info', [
     'middleware' => ['admin'],
     'uses' => 'Admin\MemberController@ajaxInfo',
 ]);
+
+Route::get('/member/pdf/{id}', [
+    'as' => 'member.pdf',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\MemberController@pdf',
+]);
 Route::group(['prefix' => 'help'], function () {
     Route::get('/open', [
         'as' => 'help.open',

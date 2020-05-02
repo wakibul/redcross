@@ -159,7 +159,7 @@ class MemberController extends Controller
         $member = Member::where('id',$id)->with('customer','memberPackage')->first();
         PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         $pdf = PDF::loadView('admin.member.pdf', compact('member'));
-        $filename = str_replace("/","-",strtolower($help->member_request_id));
+        $filename = str_replace("/","-",strtolower($member->member_request_id));
         return $pdf->download($filename.'.pdf');
         //return view('admin.help.pdf',compact('help'));
     }

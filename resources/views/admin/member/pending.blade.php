@@ -34,6 +34,7 @@
                 <td>{{date('d-M-Y',strtotime($member->created_at))}}</td>
                 <td><a href="javascript::void(0)" class="btn btn-sm btn-primary info" data-id="{{$member->id}}">Info</a>
                 <a href="{{route('admin.approve',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure to approve?')">Approve</a>
+                <a href="{{route('admin.member.pdf',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-orange" target="_blank">PDF</a>
                 <a href="{{route('admin.delete',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
                     </td>
             </tr>
