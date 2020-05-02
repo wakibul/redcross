@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Help;
 use App\Models\HelpTransaction;
 use Crypt,Redirect,Auth,Validator,DB;
+use PDF;
 class HelpController extends Controller
 {
     /**
@@ -154,5 +155,15 @@ class HelpController extends Controller
         $help = Help::where('id',$id)->first();
         $help->delete();;
         return Redirect::back()->with('success', 'Deleted !');
+    }
+
+    public function pdf($id)
+    {
+        //
+        $id = Crypt::decrypt($id);
+        $data = Help::with('customer')->where('id',$id)->first();
+        $pdf = PDF::loadView('admin.help.pdf', compact('data'));
+        return $pdf->download('customers.pdf');
+        //return view('admin.help.pdf',compact('help'));
     }
 }

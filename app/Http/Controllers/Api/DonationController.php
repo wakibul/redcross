@@ -17,6 +17,11 @@ class DonationController extends Controller
     public function index()
     {
         //
+        $donations = Donation::with('country','state')->paginate();
+        if(!$donations->isEmpty())
+        return response()->json(['success'=>true,'donations'=>$donations]);
+        else
+        return response()->json(['success'=>false]);
     }
 
     /**
@@ -39,6 +44,7 @@ class DonationController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
+            'donation_type' => 'required',
             'name' => 'required',
             'age'=> 'required',
             'sex'=> 'required',
@@ -59,6 +65,8 @@ class DonationController extends Controller
         DB::beginTransaction();
         try {
             $data['name'] = $request->name;
+            $data['donation_type'] = $request->donation_type;
+            $data['blood_group'] = $request->blood_group;
             $data['customer_id'] = auth('api')->user()->id;
             $data['age'] = $request->age;
             $data['sex'] = $request->sex;

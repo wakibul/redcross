@@ -33,4 +33,6 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/help-store', 'Api\HelpController@store');
     Route::get('/country-list', 'Api\CountryController@index');
     Route::post('/donation-store', 'Api\DonationController@store');
+    Route::get('/help-list', 'Api\HelpController@index');
+    Route::get('/donation-list', 'Api\DonationController@index');
 });

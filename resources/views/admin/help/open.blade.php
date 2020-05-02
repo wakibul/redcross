@@ -41,6 +41,7 @@
                 <td><a href="javascript:void(0)" class="btn btn-sm btn-primary info" data-id="{{$help->id}}">Info</a>
                 <a href="javascript:void(0)" class="btn btn-sm btn-success status"  data-id="{{$help->id}}">Update Status</a>
                 <!-- <a href="{{route('admin.help.close_issue',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure to close?')">Close</a> -->
+                <a href="{{route('admin.help.pdf',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-orange">PDF</a>
                 <a href="{{route('admin.help.delete',Crypt::encrypt($help->id))}}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
                     </td>
             </tr>
@@ -237,8 +238,8 @@ $(document).ready(function(){
             member_info += "<div class='row'><div class='col-md-4'><strong>Relief :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.relief+"</div></div>";
             $('#help').html(member_info);
-            if(response.status == 0){
-                member_info_status = '<span class="label label-default">On Hold</span>';
+                if(response.status == 0){
+                    member_info_status = '<span class="label label-default">On Hold</span>';
                     }
                     else if(response.status == 1){
                         member_info_status = '<span class="label label-primary">On Process</span>';

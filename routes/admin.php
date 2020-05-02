@@ -86,6 +86,12 @@ Route::group(['prefix' => 'help'], function () {
         'middleware' => ['admin'],
         'uses' => 'Admin\HelpController@update',
     ]);
+
+    Route::get('/pdf/{id}', [
+        'as' => 'help.pdf',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\HelpController@pdf',
+    ]);
 });  
 
 Route::group(['prefix' => 'donation'], function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Help;
+use App\Models\HelpTransaction;
 use App\Customer;
 use Validator,DB;
 class HelpController extends Controller
@@ -17,6 +18,11 @@ class HelpController extends Controller
     public function index()
     {
         //
+        $helps = Help::with('helpTransactions')->where('customer_id',auth('api')->user()->id)->paginate(10);
+        if(!$helps->isEmpty())
+            return response()->json(['success'=>true,'helps'=>$helps]);
+        else
+        return response()->json(['success'=>false]);
     }
 
     /**
@@ -47,11 +53,7 @@ class HelpController extends Controller
             'village_town'=> 'required',
             'district'=> 'required',
             'pincode'=> 'required|numeric',
-            'mobile'=> 'required|numeric',
-            'blood_donation'=> 'required',
-            'relief'=> 'required',
-            'medical_assistance'=> 'required',
-            'message'=> 'required'
+            'mobile'=> 'required|numeric'
 		]);
 		if ($validator->fails()) {
 			return response()->json(['success'=>false,'error'=>$validator->errors()]);
@@ -69,8 +71,10 @@ class HelpController extends Controller
             $data['mobile'] = $request->mobile;
             $data['email'] = $request->email;
             $data['blood_donation'] = $request->blood_donation;
+            $data['blood_group'] = $request->blood_group;
             $data['relief'] = $request->relief;
             $data['medical_assistance'] = $request->medical_assistance;
+            $data['other'] = $request->other;
             $data['message'] = $request->message;
             $help = Help::create($data);
             $request_id = "IND/REDCROSS/HELP/".$help->id;
