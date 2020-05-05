@@ -55,8 +55,7 @@ class DonationController extends Controller
             'mobile'=> 'required|numeric',
             'country_id'=> 'required',
             'state_id'=> 'required',
-            'donation_purpose'=> 'required',
-            'pan_no'=> 'required'
+            'donation_purpose'=> 'required'
 		]);
 		if ($validator->fails()) {
 			return response()->json(['success'=>false,'error'=>$validator->errors()]);
