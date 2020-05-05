@@ -3,13 +3,13 @@
 <div class="container">
     <div class="page-header">
         <h1 class="page-title">
-            Pending members
+           Cash Donation
         </h1>
     </div>
 <div class="col-md-12">
-@include('admin.filter.member')
+@include('admin.filter.donation')
 @include('admin.layout.alert')
-<a href="{{route('admin.member.export_pending',['member_package_id'=>Request()->member_package_id,'from_date'=>Request()->from_date,'to_date'=>Request()->to_date])}}" class="btn btn-success" target="_blank">Export to excel</a>
+<a href="{{route('admin.donation.export_donation',['state_id'=>Request()->state_id,'from_date'=>Request()->from_date,'to_date'=>Request()->to_date])}}" class="btn btn-success" target="_blank">Export to excel</a>
     <table class="table">
         <thead>
             <tr>
@@ -18,25 +18,26 @@
                 <th>Applied Mobile No</th>
                 <th>Email</th>
                 <th>Gender</th>
-                <th>Member package</th>
-                <th>Applied on</th>
+                <th>Amount</th>
+                <th>State</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($members as $key=>$member)
+            @forelse($donations as $key=>$donation)
             <tr>
                 <td>{{ ($key+1) }}</td>
                 
-                <td>{{$member->name}}</td>
-                <td>{{$member->mobile}}</td>
-                <td>{{$member->email ? $member->email : 'Not available'}}</td>
-                <td>{{$member->sex}}</td>
-                <td>{{$member->memberPackage->name}}</td>
-                <td>{{date('d-M-Y',strtotime($member->created_at))}}</td>
-                <td><a href="javascript::void(0)" class="btn btn-sm btn-primary info" data-id="{{$member->id}}">Info</a>
-                <a href="{{route('admin.approve',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure to approve?')">Approve</a>
-                <a href="{{route('admin.member.pdf',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-orange" target="_blank">PDF</a>
-                <a href="{{route('admin.delete',Crypt::encrypt($member->id))}}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                <td>{{$donation->name}}</td>
+                <td>{{$donation->mobile}}</td>
+                <td>{{$donation->email ? $donation->email : 'Not available'}}</td>
+                <td>{{$donation->sex}}</td>
+                <td>{{$donation->donation_amount}}</td>
+                <td>{{$donation->state->name}}</td>
+                <td>{{date('d-M-Y',strtotime($donation->created_at))}}</td>
+                <td><a href="javascript::void(0)" class="btn btn-sm btn-primary info" data-id="{{$donation->id}}">Info</a>
+                <a href="{{route('admin.donation.cash_pdf',Crypt::encrypt($donation->id))}}" class="btn btn-sm btn-orange"  target="_blank">PDF</a>
+                <a href="{{route('admin.donation.delete',Crypt::encrypt($donation->id))}}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
                     </td>
             </tr>
             @empty
@@ -47,7 +48,7 @@
 
         </tbody>
     </table>
-    {{$members->links()}}
+    {{$donations->links()}}
 </div>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -76,10 +77,10 @@
             
                 <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Member Request Info</h3>
+                    <h3 class="card-title">Donation Info</h3>
                 </div>
                 <div class="card-body">
-                    <div id="member"></div>
+                    <div id="donation"></div>
                 </div>
                 </div>
 
@@ -108,7 +109,7 @@ $(document).ready(function(){
   $('.info').click(function(){
     var id = $(this).attr('data-id');
     $.ajax({
-        url:'{{route("admin.get_member_info")}}',
+        url:'{{route("admin.donation.get_donation_info")}}',
         data:'id='+id,
         type:'post',
         dataType:'json',
@@ -126,19 +127,13 @@ $(document).ready(function(){
             user_reg += "<div class='row'><div class='col-md-4'><strong>Email :</strong></div>";
             user_reg += "<div class='col-md-8'>"+customer_email+"</div></div>";
             $('#registration').html(user_reg);
-            if(response.voluntary_service == 1)
-                voluntary_service = "Yes";
-            else
-                voluntary_service = "No";
-
-              
 
             if(response.email == null)
                 email = "Not Available";
             else
                 email = response.email;  
             var member_info = "<div class='row'><div class='col-md-4'><strong>Request Id :</strong></div>";
-            member_info += "<div class='col-md-8'><strong>"+response.member_request_id+"</strong></div></div>";
+            member_info += "<div class='col-md-8'><strong>"+response.donation_request_id+"</strong></div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Name :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.name+"</div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Mobile :</strong></div>";
@@ -157,11 +152,17 @@ $(document).ready(function(){
             member_info += "<div class='col-md-8'>"+response.district+"</div></div>";
             member_info += "<div class='row'><div class='col-md-4'><strong>Pincode :</strong></div>";
             member_info += "<div class='col-md-8'>"+response.pincode+"</div></div>";
-            member_info += "<div class='row'><div class='col-md-4'><strong>voluntary_service :</strong></div>";
-            member_info += "<div class='col-md-8'>"+voluntary_service+"</div></div>";
-            member_info += "<div class='row'><div class='col-md-4'><strong>Member Package :</strong></div>";
-            member_info += "<div class='col-md-8'>"+response.member_package.name+"</div></div>";
-            $('#member').html(member_info);
+            member_info += "<div class='row'><div class='col-md-4'><strong>Country :</strong></div>";
+            member_info += "<div class='col-md-8'>India</div></div>";
+            member_info += "<div class='row'><div class='col-md-4'><strong>State :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.state.name+"</div></div>";
+            member_info += "<div class='row'><div class='col-md-4'><strong>Amount :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.donation_amount+"</div></div>";
+            member_info += "<div class='row'><div class='col-md-4'><strong>Purpose :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.donation_purpose+"</div></div>";
+            member_info += "<div class='row'><div class='col-md-4'><strong>Pan no :</strong></div>";
+            member_info += "<div class='col-md-8'>"+response.pan_no+"</div></div>";
+            $('#donation').html(member_info);
         },
         error:function(response){
             

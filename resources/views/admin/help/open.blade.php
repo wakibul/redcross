@@ -9,6 +9,7 @@
 <div class="col-md-12">
 @include('admin.filter.help')
 @include('admin.layout.alert')
+<a href="{{route('admin.help.export_open',['from_date'=>Request()->from_date,'to_date'=>Request()->to_date])}}" class="btn btn-success" target="_blank">Export to excel</a>
     <table class="table">
         <thead>
             <tr>

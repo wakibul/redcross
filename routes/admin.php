@@ -58,6 +58,17 @@ Route::get('/member/pdf/{id}', [
     'middleware' => ['admin'],
     'uses' => 'Admin\MemberController@pdf',
 ]);
+Route::get('/member/export-excel-approve', [
+    'as' => 'member.export_approve',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\MemberController@excelApprove',
+]);
+
+Route::get('/member/export-excel-pending', [
+    'as' => 'member.export_pending',
+    'middleware' => ['admin'],
+    'uses' => 'Admin\MemberController@excelPending',
+]);
 Route::group(['prefix' => 'help'], function () {
     Route::get('/open', [
         'as' => 'help.open',
@@ -98,15 +109,26 @@ Route::group(['prefix' => 'help'], function () {
         'middleware' => ['admin'],
         'uses' => 'Admin\HelpController@pdf',
     ]);
+
+    Route::get('/export-excel-open', [
+        'as' => 'help.export_open',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\HelpController@excelOpen',
+    ]);
+    Route::get('/export-excel-close', [
+        'as' => 'help.export_close',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\HelpController@excelClose',
+    ]);
 });  
 
 Route::group(['prefix' => 'donation'], function () {
-    Route::get('/index', [
-        'as' => 'donation.index',
+    Route::get('/cash-donation', [
+        'as' => 'donation.cash_donation',
         'middleware' => ['admin'],
-        'uses' => 'Admin\DonationController@index',
+        'uses' => 'Admin\DonationController@cashDonation',
     ]);
-    Route::post('/get-donation-info', [
+    Route::post('/get_donation_info', [
         'as' => 'donation.get_donation_info',
         'middleware' => ['admin'],
         'uses' => 'Admin\DonationController@ajaxInfo',
@@ -117,7 +139,34 @@ Route::group(['prefix' => 'donation'], function () {
         'middleware' => ['admin'],
         'uses' => 'Admin\DonationController@destroy',
     ]);
+    Route::get('/blood-donation', [
+        'as' => 'donation.blood_donation',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\DonationController@bloodDonation',
+    ]);
 
-    
+    Route::get('/pdf/{id}', [
+        'as' => 'donation.pdf',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\DonationController@pdf',
+    ]);
+
+    Route::get('/cash-pdf/{id}', [
+        'as' => 'donation.cash_pdf',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\DonationController@cashPdf',
+    ]);
+
+    Route::get('/export-donation', [
+        'as' => 'donation.export_donation',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\DonationController@exportDonation',
+    ]);
+
+    Route::get('/export-blood-donation', [
+        'as' => 'donation.export_blood_donation',
+        'middleware' => ['admin'],
+        'uses' => 'Admin\DonationController@exportBloodDonation',
+    ]);
 });    
 

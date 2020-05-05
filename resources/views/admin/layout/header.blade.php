@@ -77,7 +77,7 @@
 
                     <li class="nav-item">
                         <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-user"></i>
-                            Help Request </a>
+                            Need help </a>
                         <div class="dropdown-menu dropdown-menu-arrow">
                         <a href="{{route('admin.help.open')}}" class="dropdown-item"><i class="fa fa-user"
                                 aria-hidden="true"></i>Open Issue</a>
@@ -86,9 +86,15 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a href="{{route('admin.donation.index')}}" class="nav-link "><i class="fa fa-user"
-                                aria-hidden="true"></i>Donation</a>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fa fa-user"></i>
+                            Donations </a>
+                        <div class="dropdown-menu dropdown-menu-arrow">
+                        <a href="{{route('admin.donation.cash_donation')}}" class="dropdown-item"><i class="fa fa-user"
+                                aria-hidden="true"></i>Cash Donation</a>
+                        <a href="{{route('admin.donation.blood_donation')}}" class="dropdown-item"><i class="fa fa-user"
+                                aria-hidden="true"></i>Blood Donation</a>
+                        </div>
                     </li>
                     
                    

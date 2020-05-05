@@ -9,6 +9,8 @@ use App\Customer;
 use App\Models\MemberPackage;
 use Crypt,Redirect,Auth;
 use PDF;
+use Excel;
+use App\Exports\MemberExport;
 class MemberController extends Controller
 {
     /**
@@ -162,5 +164,41 @@ class MemberController extends Controller
         $filename = str_replace("/","-",strtolower($member->member_request_id));
         return $pdf->download($filename.'.pdf');
         //return view('admin.help.pdf',compact('help'));
+    }
+
+    public function excelApprove(Request $request)
+    {
+       
+        $members = Member::with('memberPackage')->where('status','1');
+        if ($request->member_package_id) {
+            $members->where('member_package_id',$request->member_package_id);
+        }
+        if ($request->from_date) {
+            $members->whereDate('created_at','>=',$request->from_date);
+        }
+
+        if ($request->to_date) {
+            $members->whereDate('created_at','<=',$request->to_date);
+        }
+        $members = $members->get();
+        return Excel::download(new MemberExport($members), 'approved_members.xlsx');
+    }
+
+    public function excelPending(Request $request)
+    {
+       
+        $members = Member::with('memberPackage')->where('status','0');
+        if ($request->member_package_id) {
+            $members->where('member_package_id',$request->member_package_id);
+        }
+        if ($request->from_date) {
+            $members->whereDate('created_at','>=',$request->from_date);
+        }
+
+        if ($request->to_date) {
+            $members->whereDate('created_at','<=',$request->to_date);
+        }
+        $members = $members->get();
+        return Excel::download(new MemberExport($members), 'pending_members.xlsx');
     }
 }

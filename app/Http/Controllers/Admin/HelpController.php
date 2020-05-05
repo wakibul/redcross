@@ -8,6 +8,8 @@ use App\Models\Help;
 use App\Models\HelpTransaction;
 use Crypt,Redirect,Auth,Validator,DB;
 use PDF;
+use Excel;
+use App\Exports\HelpExport;
 class HelpController extends Controller
 {
     /**
@@ -167,5 +169,33 @@ class HelpController extends Controller
         $filename = str_replace("/","-",strtolower($help->help_request_id));
         return $pdf->download($filename.'.pdf');
         //return view('admin.help.pdf',compact('help'));
+    }
+
+    public function excelOpen(Request $request)
+    {
+        $helps = Help::with('customer')->where('status','!=','2');
+        if ($request->from_date) {
+            $helps->whereDate('created_at','>=',$request->from_date);
+        }
+
+        if ($request->to_date) {
+            $helps->whereDate('created_at','<=',$request->to_date);
+        }
+        $helps = $helps->get();
+        return Excel::download(new HelpExport($helps), 'pending_help_issues.xlsx');
+    }
+
+    public function excelClose(Request $request)
+    {
+        $helps = Help::with('customer')->where('status','2');
+        if ($request->from_date) {
+            $helps->whereDate('created_at','>=',$request->from_date);
+        }
+
+        if ($request->to_date) {
+            $helps->whereDate('created_at','<=',$request->to_date);
+        }
+        $helps = $helps->get();
+        return Excel::download(new HelpExport($helps), 'closed_help_issues.xlsx');
     }
 }
